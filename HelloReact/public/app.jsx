@@ -7,17 +7,33 @@ var Greeter = React.createClass({
             message : 'This is the default message from component'
         };
     },
+    // Get initial state of the component
+    getInitialState : function() {
+        return {
+            name : this.props.name
+        }
+    },
+
     // Define onButtonClick function
     onButtonClick : function(e) {
         e.preventDefault();
         
         // Using ref to fetch the values. refs is an object and we've a name attribute to it.
-        var name = this.refs.name.value;
-        alert(name);
+        var nameRef = this.refs.name;
+        var name = nameRef.value;
+        nameRef.value = '';                  // Clearing the input field 
+
+        if(typeof name === 'string' && name.length > 1) {       // Check for bad data
+            this.setState({
+                name : name
+            });
+        } else {
+            alert('Name field empty or bad data! Try again.')
+        }
     },
     render : function() {
         // Pulling props via 'this.props' objects
-        var name = this.props.name;
+        var name = this.state.name;
         var message = this.props.message;
         return (
             <div>

@@ -6,7 +6,7 @@ var GreeterMessage = React.createClass({
         return (
             <div>
                 <h1>Hello {name}!</h1>
-                <p>{message}</p>
+                <p><strong>Message: </strong>{message}</p>
             </div>
         );
     }
@@ -16,18 +16,34 @@ var GreeterForm = React.createClass({
     onFormSubmit : function(e) {
         e.preventDefault();
 
+        var updates = {};
         var name = this.refs.name.value;
+        var message = this.refs.message.value;
 
         if(name.length > 1) {
             this.refs.name.value = '';
-            this.props.onNewName(name);
+            updates.name = name;
         }
+        
+        if(message.length > 4) {
+            this.refs.message.value = '';
+            updates.message = message;
+        }
+        this.props.onNewData(updates);
+        
     },
     render : function() {
         return (
             <form action="" onSubmit={this.onFormSubmit}>  {/*onSubmit attribute that built-in to React*/} 
-                <input type="text" ref="name"/>             {/*ref : custom attribute used by React*/}
-                <button>Set name</button>
+                <div>
+                    <input type="text" placeholder="Enter name" ref="name"/>             {/*ref : custom attribute used by React*/}
+                </div>
+                <div>
+                    <textarea placeholder="Enter message" ref="message"/>
+                </div>
+                <div>
+                    <button>Submit</button>
+                </div>
             </form>
         );
     }
@@ -46,25 +62,24 @@ var Greeter = React.createClass({
     // Get initial state of the component
     getInitialState : function() {
         return {
-            name : this.props.name
+            name : this.props.name,
+            message : this.props.message
         }
     },
 
     // Define onButtonClick function
-    handleNewName : function(name) {
-        this.setState({
-            name : name
-        });
+    handleNewData : function(updates) {
+        this.setState(updates);
     },
     render : function() {
         // Pulling props via 'this.props' objects
         var name = this.state.name;
-        var message = this.props.message;
+        var message = this.state.message;
         return (
             <div>
                 
                 <GreeterMessage name={name} message={message}/>
-                <GreeterForm onNewName={this.handleNewName}/>
+                <GreeterForm onNewData={this.handleNewData}/>
             </div>
         );
     }

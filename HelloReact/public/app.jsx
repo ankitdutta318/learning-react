@@ -1,6 +1,6 @@
 var React           = require('react');
 var ReactDOM        = require('react-dom');
-var Greeter         = require('./components/Greeter');
+var Greeter         = require('Greeter');
 
 // Set variables(any type) as inputs for props
 var firstName = 'Ankit';

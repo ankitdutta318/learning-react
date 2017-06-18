@@ -1,14 +1,20 @@
 module.exports = {
-    entry : './public/app.jsx',
-    output : {
-        path : __dirname,
-        filename : './public/bundle.js'
+    entry: './public/app.jsx',
+    output: {
+        path: __dirname,
+        filename: './public/bundle.js'
     },
     resolve : {
-        extensions : ['', '.js', '.jsx']
+        root: __dirname,
+        alias: {
+            Greeter: 'public/components/Greeter.jsx',
+            GreeterMessage: 'public/components/GreeterMessage.jsx',
+            GreeterForm: 'public/components/GreeterForm.jsx'
+        },
+        extensions: ['', '.js', '.jsx']
     },
-    module : {
-        loaders : [
+    module: {
+        loaders: [
             {
                 loader: 'babel-loader',
                 query: {

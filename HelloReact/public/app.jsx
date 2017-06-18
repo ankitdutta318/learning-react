@@ -1,3 +1,39 @@
+var GreeterMessage = React.createClass({
+    render : function() {
+        var name = this.props.name;
+        var message = this.props.message;
+
+        return (
+            <div>
+                <h1>Hello {name}!</h1>
+                <p>{message}</p>
+            </div>
+        );
+    }
+});
+
+var GreeterForm = React.createClass({
+    onFormSubmit : function(e) {
+        e.preventDefault();
+
+        var name = this.refs.name.value;
+
+        if(name.length > 1) {
+            this.refs.name.value = '';
+            this.props.onNewName(name);
+        }
+    },
+    render : function() {
+        return (
+            <form action="" onSubmit={this.onFormSubmit}>  {/*onSubmit attribute that built-in to React*/} 
+                <input type="text" ref="name"/>             {/*ref : custom attribute used by React*/}
+                <button>Set name</button>
+            </form>
+        );
+    }
+});
+
+
 var Greeter = React.createClass({
 
     // Setting default props
@@ -15,21 +51,10 @@ var Greeter = React.createClass({
     },
 
     // Define onButtonClick function
-    onButtonClick : function(e) {
-        e.preventDefault();
-        
-        // Using ref to fetch the values. refs is an object and we've a name attribute to it.
-        var nameRef = this.refs.name;
-        var name = nameRef.value;
-        nameRef.value = '';                  // Clearing the input field 
-
-        if(typeof name === 'string' && name.length > 1) {       // Check for bad data
-            this.setState({
-                name : name
-            });
-        } else {
-            alert('Name field empty or bad data! Try again.')
-        }
+    handleNewName : function(name) {
+        this.setState({
+            name : name
+        });
     },
     render : function() {
         // Pulling props via 'this.props' objects
@@ -37,15 +62,9 @@ var Greeter = React.createClass({
         var message = this.props.message;
         return (
             <div>
-                <h1>Hello {name}!</h1>
-                <p>{message}</p>
-
                 
-                <form action="" onSubmit={this.onButtonClick}>  {/*onSubmit attribute that built-in to React*/}
-                    
-                    <input type="text" ref="name"/>             {/*ref : custom attribute used by React*/}
-                    <button>Set name</button>
-                </form>
+                <GreeterMessage name={name} message={message}/>
+                <GreeterForm onNewName={this.handleNewName}/>
             </div>
         );
     }

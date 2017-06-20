@@ -17,8 +17,7 @@ module.exports = {
                 return res.data.main.temp;
             }
         }, (res) => {
-            console.log(res);
-            throw new Error(res.status);
+            throw new Error(res);
         })
     }
 };
